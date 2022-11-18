@@ -1,0 +1,64 @@
+/* Non-negotiables */
+body {
+    height:90vh;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+    background-color:black;
+}
+
+.grey {
+    background-color:#a5a3a6;
+    color:black;
+}
+.grey:hover {
+    background-color:#909091;
+}
+
+.num {
+    background-color:#383a36;
+    color:#d5e8fd;
+}
+.num:hover {
+    background-color:#222421;
+}
+
+.ops {
+    background-color:#d68432;
+    color:#d5e8fd;
+}
+.ops:hover {
+    background-color:#b36e29;
+}
+
+#container {
+    /* border:5px solid rgb(30, 131, 101); */
+    width:40%;
+}
+
+button {
+    aspect-ratio:1/1;
+    border:2px solid black;
+}
+button:focus {
+    transform:scale(1.1);
+}
+
+/* Negotiables */
+
+#container {
+    display:grid;
+    grid-template: repeat(6, 16%) / repeat(4, 20%);
+}
+
+#display {
+    grid-column: 1 / -1;
+    grid-row:1 / 2;
+    background-color:rgb(26, 26, 26);
+}   
+#n0 {
+    grid-column-start:1;
+    grid-column-end:3;
+    aspect-ratio:2/1;
+}
