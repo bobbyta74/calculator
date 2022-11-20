@@ -76,10 +76,12 @@ for (let button of buttons) {
         } else if (buttonid == "ac") {
             //Clears input string
             inputstring = "0";
+            num1 = 0;
+            num2 = 0;
+            operatorcount = 0;
         } else if (buttonid == "sign") {
             //Changes string to integer to multiply it by -1, then immediately back to string so you can add more digits
-            inputstring = -1 * getinput();
-            inputstring = inputstring.toString();
+            inputstring = "-".concat(inputstring);
         } else if (buttonid == "percent") {
             inputstring = parseInt(inputstring) / 100;
             inputstring = inputstring.toString();
