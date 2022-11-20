@@ -7,7 +7,8 @@ let inputstring = "";
 let num1;
 let num2;
 let currentoperator;
-let numoperators = 0;
+
+let operatorcount = 0;
 
 /*If number then add to calculation
 If operator then save current number, save current operator wait for next operator, save that number, then operate() and update display
@@ -51,6 +52,14 @@ function operate(operator, a, b) {
         return a * b;
     } else if (operator == "÷") {
         return a / b;
+    } else if (operator == "="){
+        //If b doesn't exist (say we put in "5+7=", get 12 and then want to add something to 12), then = just returns a
+        //This really shouldn't be an operator but I'm scared I'll break the program otherwise
+        if (isNaN(parseFloat(b))) {
+            return a;
+        } else {
+            return b;
+        }
     }
 }
 
@@ -64,13 +73,12 @@ for (let button of buttons) {
                 inputstring = "";
             }
             inputstring += button.textContent;
-            console.log(inputstring);
         } else if (buttonid == "ac") {
             //Clears input string
             inputstring = "0";
         } else if (buttonid == "sign") {
             //Changes string to integer to multiply it by -1, then immediately back to string so you can add more digits
-            inputstring = -1 * parseInt(inputstring);
+            inputstring = -1 * getinput();
             inputstring = inputstring.toString();
         } else if (buttonid == "percent") {
             inputstring = parseInt(inputstring) / 100;
@@ -83,7 +91,7 @@ for (let button of buttons) {
 for (let button of ops) {
     let buttonid = button.getAttribute("id");
     button.addEventListener("click", function () {
-        if (numoperators >= 1) {
+        if (operatorcount >= 1) {
             //Gets 2nd number from input (first is saved already as num1)
             num2 = getinput();
             //The result will be used for further calculations, so num1 is set to the result
@@ -99,6 +107,6 @@ for (let button of ops) {
         //Gets current operator to call the function later
         currentoperator = button.textContent;
         inputstring = "";
-        numoperators += 1;
+        operatorcount += 1;
     })
 }
