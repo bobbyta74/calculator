@@ -78,6 +78,7 @@ for (let button of buttons) {
             if (inputstring == "0") {
                 inputstring = "";
             }
+            if (buttonid != "dot" || inputstring.indexOf(".") <= -1)
             inputstring += button.textContent;
         } else if (buttonid == "ac") {
             //Clears input string
