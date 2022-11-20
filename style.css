@@ -40,8 +40,9 @@ body {
 button {
     aspect-ratio:1/1;
     border:2px solid black;
+    font-size:4vmin;
 }
-button:focus {
+button:active {
     transform:scale(1.1);
 }
 
@@ -57,7 +58,8 @@ button:focus {
     grid-row:1 / 2;
     background-color:rgb(26, 26, 26);
     color:white;
-    font-size:400%;
+    font-size:8vmin;
+    text-align:right;
 }   
 #n0 {
     grid-column-start:1;
