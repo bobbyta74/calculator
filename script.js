@@ -44,22 +44,28 @@ function divide(a, b) {
 }
 
 function operate(operator, a, b) {
+    let result;
     if (operator == "+") {
-        return a + b;
+        result = a + b;
     } else if (operator == "-") {
-        return a - b;
+        result = a - b;
     } else if (operator == "x") {
-        return a * b;
+        result = a * b;
     } else if (operator == "÷") {
-        return a / b;
+        result = a / b;
     } else if (operator == "="){
         //If b doesn't exist (say we put in "5+7=", get 12 and then want to add something to 12), then = just returns a
         //This really shouldn't be an operator but I'm scared I'll break the program otherwise
         if (isNaN(parseFloat(b))) {
-            return a;
+            result = a;
         } else {
-            return b;
+            result = b;
         }
+    }
+    if (result.toPrecision(7) != result){
+        return result.toPrecision(7);
+    } else {
+        return result;
     }
 }
 
@@ -81,7 +87,12 @@ for (let button of buttons) {
             operatorcount = 0;
         } else if (buttonid == "sign") {
             //Changes string to integer to multiply it by -1, then immediately back to string so you can add more digits
-            inputstring = "-".concat(inputstring);
+            console.log(inputstring[0]);
+            if (inputstring[0] != "-") {
+                inputstring = "-".concat(inputstring);
+            } else {
+                inputstring = inputstring.replace("-", "");
+            }
         } else if (buttonid == "percent") {
             inputstring = parseInt(inputstring) / 100;
             inputstring = inputstring.toString();

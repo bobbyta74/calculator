@@ -1,4 +1,3 @@
-/* Non-negotiables */
 body {
     height:90vh;
     display:flex;
@@ -24,6 +23,12 @@ body {
     background-color:#222421;
 }
 
+#n0 {
+    grid-column-start:1;
+    grid-column-end:3;
+    aspect-ratio:2/1;
+}
+
 .ops {
     background-color:#d68432;
     color:#d5e8fd;
@@ -35,22 +40,18 @@ body {
 #container {
     /* border:5px solid rgb(30, 131, 101); */
     width:40%;
+    display:grid;
+    grid-template: repeat(6, 16%) / repeat(4, 20%);
 }
 
 button {
     aspect-ratio:1/1;
     border:2px solid black;
     font-size:4vmin;
+    border-radius:0.75vmin;
 }
 button:active {
     transform:scale(1.1);
-}
-
-/* Negotiables */
-
-#container {
-    display:grid;
-    grid-template: repeat(6, 16%) / repeat(4, 20%);
 }
 
 #display {
@@ -60,9 +61,5 @@ button:active {
     color:white;
     font-size:8vmin;
     text-align:right;
-}   
-#n0 {
-    grid-column-start:1;
-    grid-column-end:3;
-    aspect-ratio:2/1;
+    border-radius:0.75vmin;
 }
