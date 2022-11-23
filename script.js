@@ -62,7 +62,6 @@ function operate(operator, a, b) {
             result = b;
         }
     }
-    console.log(result);
     return result;
 }
 
@@ -91,7 +90,6 @@ for (let button of buttons) {
                 operatorcount = 0;
             } else if (buttonid == "sign") {
                 //Changes string to integer to multiply it by -1, then immediately back to string so you can add more digits
-                console.log(inputstring[0]);
                 if (inputstring[0] != "-") {
                     inputstring = "-".concat(inputstring);
                 } else {
@@ -103,7 +101,7 @@ for (let button of buttons) {
             }
         }
         display.textContent = inputstring;
-    }) 
+    });
 }
 
 for (let button of ops) {
@@ -117,7 +115,11 @@ for (let button of ops) {
                 num2 = getinput();
                 //The result will be used for further calculations, so num1 is set to the result
                 num1 = operate(currentoperator, num1, num2);
-                display.textContent = roundAccurately(num1, 11);
+                if (num1 != Infinity) {
+                    display.textContent = roundAccurately(num1, 11);
+                } else {
+                    display.textContent = "NICE TRY.";
+                }
             } else {
                 num1 = getinput();
                 display.textContent = num1;
@@ -128,13 +130,13 @@ for (let button of ops) {
             inputstring = "";
             operatorcount += 1;
         }
-    })
+    });
 }
 
 //Keyboard input
 document.addEventListener("keydown", e => {
-    console.log(e.key);
-    if (e.key == "+" || e.key == "-" || e.key == "/" || e.key == "*" || e.key == "=") {
+    e.preventDefault();
+    if (e.key == "+" || e.key == "-" || e.key == "/" || e.key == "*" || e.key == "=" || e.key == "x") {
         //I know this is a lazy copy-paste but I tried to make a function and it called clicks out of nowhere for some reason
         if (e.key == "-" && inputstring.length == 0) {
             inputstring += "-";
@@ -144,7 +146,11 @@ document.addEventListener("keydown", e => {
                 num2 = getinput();
                 //The result will be used for further calculations, so num1 is set to the result
                 num1 = operate(currentoperator, num1, num2);
-                display.textContent = roundAccurately(num1, 11);
+                if (num1 != Infinity) {
+                    display.textContent = roundAccurately(num1, 11);
+                } else {
+                    display.textContent = "NICE TRY.";
+                }
             } else {
                 num1 = getinput();
                 display.textContent = num1;
@@ -152,7 +158,6 @@ document.addEventListener("keydown", e => {
             //Save first number of operation and make clean slate for second
             //Gets current operator to call the function later
             currentoperator = e.key;
-            console.log(currentoperator);
             inputstring = "";
             operatorcount += 1;
         }
@@ -175,12 +180,15 @@ document.addEventListener("keydown", e => {
                     inputstring = inputstring.replace("-", "");
                 }
             }
-        } else if (e.key == "c") {
+        if (e.key == "c") {
             inputstring = "0";
             num1 = 0;
             num2 = 0;
             operatorcount = 0;
         }
+        if (e.key == "Backspace") {
+            inputstring = inputstring.slice(0, inputstring.length - 1);
+        }
         display.textContent = inputstring;
     }
-})
+}});
