@@ -62,4 +62,5 @@ button:active {
     font-size:8vmin;
     text-align:right;
     border-radius:0.75vmin;
+    font-family:monospace;
 }

@@ -62,65 +62,71 @@ function operate(operator, a, b) {
             result = b;
         }
     }
-    if (result.toPrecision(7) != result){
-        return result.toPrecision(7);
-    } else {
-        return result;
-    }
+    return result;
+}
+
+
+function roundAccurately(num, places) {
+    return parseFloat(Math.round(num + 'e' + places) + 'e-' + places);
 }
 
 //Event listeners for everything except operators because that would be way too long
 for (let button of buttons) {
     let buttonid = button.getAttribute("id");
     button.addEventListener("click", function () {
-        if (button.getAttribute("class") == "num") {
-            //If it's a number, add to input string
-            if (inputstring == "0") {
-                inputstring = "";
+        if (inputstring.length < 13 || buttonid == "ac") {
+            if (button.getAttribute("class") == "num") {
+                //If it's a number, add to input string
+                if (inputstring == "0") {
+                    inputstring = "";
+                }
+                if (buttonid != "dot" || inputstring.indexOf(".") <= -1) {
+                    inputstring += button.textContent;
+                }
+            } else if (buttonid == "ac") {
+                //Clears input string
+                inputstring = "0";
+                num1 = 0;
+                num2 = 0;
+                operatorcount = 0;
+            } else if (buttonid == "sign") {
+                //Changes string to integer to multiply it by -1, then immediately back to string so you can add more digits
+                console.log(inputstring[0]);
+                if (inputstring[0] != "-") {
+                    inputstring = "-".concat(inputstring);
+                } else {
+                    inputstring = inputstring.replace("-", "");
+                }
+            } else if (buttonid == "percent") {
+                inputstring = parseInt(inputstring) / 100;
+                inputstring = inputstring.toString();
             }
-            if (buttonid != "dot" || inputstring.indexOf(".") <= -1)
-            inputstring += button.textContent;
-        } else if (buttonid == "ac") {
-            //Clears input string
-            inputstring = "0";
-            num1 = 0;
-            num2 = 0;
-            operatorcount = 0;
-        } else if (buttonid == "sign") {
-            //Changes string to integer to multiply it by -1, then immediately back to string so you can add more digits
-            console.log(inputstring[0]);
-            if (inputstring[0] != "-") {
-                inputstring = "-".concat(inputstring);
-            } else {
-                inputstring = inputstring.replace("-", "");
-            }
-        } else if (buttonid == "percent") {
-            inputstring = parseInt(inputstring) / 100;
-            inputstring = inputstring.toString();
         }
         display.textContent = inputstring;
     }) 
 }
 
 for (let button of ops) {
-    let buttonid = button.getAttribute("id");
     button.addEventListener("click", function () {
-        if (operatorcount >= 1) {
-            //Gets 2nd number from input (first is saved already as num1)
-            num2 = getinput();
-            //The result will be used for further calculations, so num1 is set to the result
-            console.log(num1 + currentoperator + num2);
-            num1 = operate(currentoperator, num1, num2);
-            display.textContent = num1;
+        //In case someone wants to make a negative number
+        if (button.textContent == "-" && inputstring.length == 0) {
+            inputstring += "-";
         } else {
-            num1 = getinput();
-            display.textContent = num1;
-            console.log(num1);
+            if (operatorcount >= 1) {
+                //Gets 2nd number from input (first is saved already as num1)
+                num2 = getinput();
+                //The result will be used for further calculations, so num1 is set to the result
+                num1 = operate(currentoperator, num1, num2);
+                display.textContent = roundAccurately(num1, 11);
+            } else {
+                num1 = getinput();
+                display.textContent = num1;
+            }
+            //Save first number of operation and make clean slate for second
+            //Gets current operator to call the function later
+            currentoperator = button.textContent;
+            inputstring = "";
+            operatorcount += 1;
         }
-        //Save first number of operation and make clean slate for second
-        //Gets current operator to call the function later
-        currentoperator = button.textContent;
-        inputstring = "";
-        operatorcount += 1;
     })
 }
