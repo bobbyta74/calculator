@@ -49,9 +49,9 @@ function operate(operator, a, b) {
         result = a + b;
     } else if (operator == "-") {
         result = a - b;
-    } else if (operator == "x") {
+    } else if (operator == "x" || operator == "*") {
         result = a * b;
-    } else if (operator == "÷") {
+    } else if (operator == "÷" || operator == "/") {
         result = a / b;
     } else if (operator == "="){
         //If b doesn't exist (say we put in "5+7=", get 12 and then want to add something to 12), then = just returns a
@@ -62,9 +62,9 @@ function operate(operator, a, b) {
             result = b;
         }
     }
+    console.log(result);
     return result;
 }
-
 
 function roundAccurately(num, places) {
     return parseFloat(Math.round(num + 'e' + places) + 'e-' + places);
@@ -130,3 +130,57 @@ for (let button of ops) {
         }
     })
 }
+
+//Keyboard input
+document.addEventListener("keydown", e => {
+    console.log(e.key);
+    if (e.key == "+" || e.key == "-" || e.key == "/" || e.key == "*" || e.key == "=") {
+        //I know this is a lazy copy-paste but I tried to make a function and it called clicks out of nowhere for some reason
+        if (e.key == "-" && inputstring.length == 0) {
+            inputstring += "-";
+        } else {
+            if (operatorcount >= 1) {
+                //Gets 2nd number from input (first is saved already as num1)
+                num2 = getinput();
+                //The result will be used for further calculations, so num1 is set to the result
+                num1 = operate(currentoperator, num1, num2);
+                display.textContent = roundAccurately(num1, 11);
+            } else {
+                num1 = getinput();
+                display.textContent = num1;
+            }
+            //Save first number of operation and make clean slate for second
+            //Gets current operator to call the function later
+            currentoperator = e.key;
+            console.log(currentoperator);
+            inputstring = "";
+            operatorcount += 1;
+        }
+    } else {
+        if (inputstring.length < 13) {
+            if (isFinite(e.key) && inputstring.length < 13) {
+                if (inputstring == "0") {
+                    inputstring = "";
+                }
+                inputstring += e.key;
+            } else if (e.key == "." && inputstring.indexOf(".") <= -1) {
+                inputstring += ".";
+            } else if (e.key == "%") {
+                inputstring = parseInt(inputstring) / 100;
+                inputstring = inputstring.toString();
+            } else if (e.key == "_") {
+                if (inputstring[0] != "-") {
+                    inputstring = "-".concat(inputstring);
+                } else {
+                    inputstring = inputstring.replace("-", "");
+                }
+            }
+        } else if (e.key == "c") {
+            inputstring = "0";
+            num1 = 0;
+            num2 = 0;
+            operatorcount = 0;
+        }
+        display.textContent = inputstring;
+    }
+})
